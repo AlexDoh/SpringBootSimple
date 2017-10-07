@@ -2,6 +2,7 @@ package com.odmytrenko.spring.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.odmytrenko.spring.util.JsonDateSerializer;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,6 +19,7 @@ public class Event {
 
     @Column(name = "DATE")
     @JsonProperty
+    @JsonSerialize(using = JsonDateSerializer.class)
     private Date date;
 
     @Embedded

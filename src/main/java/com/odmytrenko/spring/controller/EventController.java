@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -25,7 +27,7 @@ public class EventController {
     }
 
 
-    @GetMapping(value = "/add")
+    @PostMapping(value = "/add")
     public ResponseEntity<Event> createEvent(@RequestBody Event event) {
         Event resultEvent = eventService.addEvent(event);
         HttpStatus status = resultEvent != null ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
@@ -33,10 +35,15 @@ public class EventController {
     }
 
     @GetMapping(value = "/get")
-    public ResponseEntity getEventByDate(@RequestBody Date date) {
-        Event resultEvent = eventService.getEvent(date);
-        HttpStatus status = resultEvent != null ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
-        return new ResponseEntity<>(resultEvent, status);
+    public ResponseEntity getEventsByDate(@RequestParam String date) {
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            List<Event> events = eventService.getEventsByDate(simpleDateFormat.parse(date));
+            HttpStatus status = events != null ? HttpStatus.OK : HttpStatus.INTERNAL_SERVER_ERROR;
+            return new ResponseEntity<>(events, status);
+        } catch (ParseException e) {
+            throw new RuntimeException("Date specified incorrectly");
+        }
     }
 
 }

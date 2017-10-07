@@ -25,7 +25,7 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event getEvent(Date date) {
-        return eventDao.getEvent(date);
+    public List<Event> getEventsByDate(Date date) {
+        return eventDao.getEventsByDate(date);
     }
 }

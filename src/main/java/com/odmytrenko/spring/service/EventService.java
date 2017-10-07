@@ -11,5 +11,5 @@ public interface EventService {
 
     Event addEvent(Event event);
 
-    Event getEvent(Date date);
+    List<Event> getEventsByDate(Date date);
 }

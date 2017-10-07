@@ -18,22 +18,22 @@ public class EventDaoImpl implements EventDao {
 
     @Override
     public List<Event> getAllEvents() {
-        return (List<Event>) sessionFactory.getCurrentSession().createCriteria(Event.class).list();
+        return (List<Event>) this.sessionFactory.getCurrentSession().createCriteria(Event.class).list();
     }
 
     @Override
     public Event addEvent(Event event) {
-        sessionFactory.getCurrentSession().save(event);
+        this.sessionFactory.getCurrentSession().save(event);
         return event;
     }
 
     @Override
-    public Event getEvent(Date date) {
-        String query = "from Events where date =:date";
-        return (Event) this.sessionFactory.getCurrentSession()
+    public List<Event> getEventsByDate(Date date) {
+        String query = "from Event where date =:date";
+        return (List<Event>) this.sessionFactory.getCurrentSession()
                 .createQuery(query)
                 .setParameter("date", date)
-                .uniqueResult();
+                .list();
     }
 
 }
